@@ -49,7 +49,7 @@ $factory->define(Post::class, function (Faker $faker) {
         <p>&nbsp;</p>
         
         <p>&nbsp;</p>',
-        'url_thumb' => 'thumbpost/1590465427.jpg',
+        'url_thumb' => $faker->image('thumbpost',640,480, null, false),
         'slug' => 'cacao-and-coffea-the-differences-and-similarities-of-chocolate-and-coffee-' . rand(1,5000),
         'keyword' => 'KEYWORDS,cacao,chocolate,coffee,flavor,flavor,pairing,flavour',
         'status' => '0',
