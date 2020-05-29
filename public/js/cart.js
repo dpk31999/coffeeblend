@@ -247,7 +247,8 @@ $('#form_check_out').on('submit', function(e) {
     var cartArray = shoppingCart.listCart();
     var totalCart = shoppingCart.totalCart().toFixed(2);
     if (totalCart == 0) {
-        $('#error_cart').html('You cart is empty')
+        $('#error_cart').html('You cart is empty');
+        $('#check_out').html('Place an order');
     } else {
         var formData = new FormData($('#form_check_out')[0]);
         formData.append('cartArray', JSON.stringify(cartArray));

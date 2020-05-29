@@ -21,7 +21,13 @@ class RolesTableSeeder extends Seeder
 
 
         $superAdmin = Role::where('name','superadmin')->first();
-        $admin = Admin::find(1);
+        
+        $admin = Admin::create([
+            'name' => 'Huynh Dong',
+            'username' => 'huynhdong123',
+            'password' => Hash::make('password'),
+            'email' => 'd0129530646@gmail.com',
+        ]);
 
         $admin->role()->attach($superAdmin);
     }
