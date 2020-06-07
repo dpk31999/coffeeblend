@@ -5,31 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use App\Admin;
+use App\Invoice;
+use App\Booking;
 
 class HomeController extends Controller
 {
     public function index()
-    {
-        $bestSeller = Product::withCount('invoice')->orderByDesc('invoice_count')->skip(0)->take(4)->get();
+    {   
         
-        $mainDish = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'MAIN DISH');
-        })->take(3)->get();
+        $bestSeller = Product::bestSeller();
+        
+        $mainDish = Product::callCategory('MAIN DISH')->take(3)->get();
 
-        $desserts = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'DESSERTS');
-        })->take(3)->get();
+        $desserts = Product::callCategory('DESSERTS')->take(3)->get();
 
-        $drinks = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'DRINKS');
-        })->take(3)->get();
+        $drinks = Product::callCategory('DRINKS')->take(3)->get();
+
+        $count_product = Product::all()->count();
+
+        $count_order = Invoice::all()->count();
+
+        $count_booking = Booking::all()->count();
+
+        $count_admin = Admin::all()->count() - 1;
 
         $title = 'Home';
         
-        return view('client.home',compact('bestSeller','mainDish','desserts','drinks','title'));
+        return view('client.home',compact('bestSeller','mainDish','desserts','drinks','title','count_product','count_order','count_booking','count_admin'));
     }
 
     public function getCate(Category $cate)

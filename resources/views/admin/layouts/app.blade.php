@@ -25,6 +25,10 @@
 </head>
 
 <body class="animsition">
+    <?php
+        $count_book = DB::table('bookings')->where('status','0')->get()->count();
+        $count_order = DB::table('invoices')->where('status','0')->get()->count();
+    ?>
     <div class="page-wrapper">
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
@@ -39,7 +43,7 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="#">
+                            <a class="js-arrow" href="{{route('admin.home')}}">
                                 <i class="fas fa-tachometer-alt"></i>Home
                             </a>
                         </li>
@@ -51,6 +55,18 @@
                         <li>
                             <a href="{{route('admin.category')}}">
                                 <i class="fas fa-table"></i>Categories</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.order')}}">
+                                <i class="fas fa-table"></i>Orders (<span id="count_order">{{$count_order}}</span>)</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.booking')}}">
+                                <i class="fas fa-table"></i>Booking a table (<span id="count_book">{{$count_book}}</span>)</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.user')}}">
+                                <i class="fas fa-table"></i>User Manager</a>
                         </li>
                         @endif
                         <li>
@@ -308,6 +324,32 @@
                 $('.content').find('a[data-id="delete_product"]').attr('id',product_id);
                 $('.content').find('a[data-id="edit_product"]').attr('id',product_id);
                 $('.content').find('a[data-id="view_product"]').attr('id',product_id);
+            });
+
+            $('.book').on('click', function(e) {
+                var book_id = $(this).data('id');
+                $('#modalSelect').modal('show');
+                $('.content').find('a[data-id="refuse_booking"]').attr('id',book_id);
+                $('.content').find('a[data-id="confirm_booking"]').attr('id',book_id);
+            });
+
+            $('.invoice').on('click', function(e) {
+                var invoice_id = $(this).data('id');
+                if($('#status' + invoice_id).html() == 'Waiting')
+                {   
+                    $('.content').find('a[data-id="completed_order"]').show();
+                    $('#modalSelect').modal('show');
+                    $('.content').find('a[data-id="completed_order"]').attr('id',invoice_id);
+                    $('.content').find('a[data-id="info_customer"]').attr('id',invoice_id);
+                    $('.content').find('a[data-id="info_invoice"]').attr('id',invoice_id);
+                }
+                else if($('#status' + invoice_id).html() == 'Completed'){
+                    $('.content').find('a[data-id="completed_order"]').hide();
+                    $('#modalSelect').modal('show');
+                    $('.content').find('a[data-id="completed_order"]').attr('id',invoice_id);
+                    $('.content').find('a[data-id="info_customer"]').attr('id',invoice_id);
+                    $('.content').find('a[data-id="info_invoice"]').attr('id',invoice_id);
+                }
             });
 
             // $(document).click(function(event) { 
@@ -717,25 +759,94 @@
                 });
             });
 
-            $('.view').on('click',function(){
-                var user_id = $(this).attr('id');
-                var arr = user_id.split('view');
-                var id = parseInt(arr[0]+arr[1]);
+            $('.refuse-booking').on('click', function(){
+                var id = $(this).attr('id');
                 $.ajax({
                     method: 'post',
-                    url : 'getUser/'+ id,
+                    url: 'refuseBook/' + id,
                     data: '',
                     cache: false,
                     success: function(data){
-                        $("#modalView").modal('show');
-                        $('#name').html(data.user.name);
-                        $('#username').html(data.user.username);
-                        $('#email').html(data.user.email);
-                        $('#provider').html(data.user.provider);
-                        $('#status').html(data.status);
-                        $('#posts').html(data.count_post);
-                        $('#following').html(data.count_following);
-                        $('#follower').html(data.count_follower);
+                        $('#status' + id).html(data.status);
+                        $('#modalSelect').modal('hide');
+                        var count = parseInt($('#count_book').html()) - 1;
+                        $('#count_book').html(count);
+                        $('#tbody').find('tr[data-id="'+ id +'"]').css('background-color', '');
+                    }
+                });
+            });
+
+            $('.confirm-booking').on('click', function(){
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'post',
+                    url: 'confirmBook/' + id,
+                    data: '',
+                    cache: false,
+                    success: function(data){
+                        $('#status' + id).html(data.status);
+                        var count = parseInt($('#count_book').html()) - 1;
+                        $('#count_book').html(count);
+                        $('#modalSelect').modal('hide');
+                        $('#tbody').find('tr[data-id="'+ id +'"]').css('background-color', '');
+                    }
+                });
+            });
+
+            $('.completed-order').on('click', function(){
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'post',
+                    url: 'completedOrder/' + id,
+                    data: '',
+                    cache: false,
+                    success: function(data){
+                        $('#status' + id).html(data.status);
+                        var count = parseInt($('#count_order').html()) - 1;
+                        $('#count_order').html(count);
+                        $('#modalSelect').modal('hide');
+                        $('#tbody').find('tr[data-id="'+ id +'"]').css('background-color', '');
+                    }
+                });
+            });
+
+            $('.info-customer').on('click',function(){
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url : 'getCustomer/'+ id,
+                    data: '',
+                    cache: false,
+                    success: function(data){
+                        $("#modalViewCustomer").modal('show');
+                        $('#name').html(data.customer.firstname + ' ' + data.customer.lastname);
+                        $('#country').html(data.customer.country);
+                        $('#address').html(data.customer.street_address);
+                        $('#phone').html(data.customer.phone);
+                        $('#email').html(data.customer.email);
+                        $('#total').html(data.count);
+                    }
+                });
+            });
+
+            $('.info-invoice').on('click',function(){
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url : 'getInvoice/'+ id,
+                    data: '',
+                    cache: false,
+                    success: function(data){
+                        $('.product').remove();
+                        $("#modalViewOrder").modal('show');
+                        for (let product of data.products) {
+                            $('.products').append('<div class="d-flex product" style="position: relative; border-bottom: 1px solid #ffcccc; padding: 10px">' +
+                                '<p>'+ product.name +'</p>' +
+                                '<p style="position: absolute;right: 0px" id="name">' + product.quantity +' x ' + product.price + ' $' + '</p>' +
+                                '</div>'
+                            );
+                        }
+                        $('#total1').html(data.total);
                     }
                 });
             });

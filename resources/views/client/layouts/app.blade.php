@@ -209,7 +209,11 @@
                         <div class="form-group row">
                             <input id="password" placeholder="password" type="password" class="form-control" name="password" required autocomplete="current-password">
                         </div>
-                        <div id="errorlogin"></div>
+                        @if (session()->has('errorFb'))
+                            <div id="errorlogin"><p style="color: red" class="help is-danger error">{{ session()->get('errorFb') }}</p></div>                            
+                        @else
+                            <div id="errorlogin"></div>
+                        @endif
                         <div class="form-group row mb-0">
                             <button type="submit" class="btn btn-info btn-lg btn-block text-light d-flex justify-content-center align-items-center" style=" height: 40px">
                                 Log In
@@ -386,13 +390,14 @@
             //set up pusher
             Pusher.logToConsole = true;
 
-            var pusher = new Pusher('077a5b60a77ee12c40e9', {
-                cluster: 'ap1',
-                forceTLS: true
+            var pusher = new Pusher('64c47fbb72fcddee6d67', {
+            cluster: 'ap1'
             });
 
             var channel = pusher.subscribe('my-channel');
+
             channel.bind('my-event',function(data){
+                var data = data.data;
                 var count = parseInt($('#count').html());
                 count++;
                 $('#count').html(count);
@@ -413,6 +418,8 @@
                         '</form>' +
                     '</div>' +
                     '<div class="reply-comment">' +
+                        '<ul class="children" id="ofcomment'+ data.id_comment +'">' + 
+                        '</ul>' +
                     '</div>' +
                 '</li>'
                 );
@@ -523,7 +530,7 @@
                         if($.isEmptyObject(data.error)){
                             window.location.reload();
                         }else{
-                            $('#errorlogin').append('<p style="color: red" class="help is-danger error">Email or password not correct !!!</p>');
+                            $('#errorlogin').append('<p style="color: red" class="help is-danger error">'+ data.error +'</p>');
                         }
                         $("input").change(function(){
                             $('.error').remove();
@@ -790,7 +797,7 @@
                     {
                         opt.selected="selected";
                     }
-                    opt.value = i;
+                    opt.value = countryList[i];
                     opt.classList = 'text-muted';
                     opt.innerHTML = countryList[i];
                     $('#country_list').append(opt);

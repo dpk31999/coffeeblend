@@ -4,8 +4,68 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a10a70a90b8a4ceff1d2b8ff4e9db0b1",
+    "content-hash": "3b1024dfac1b788b2225df642fc78b08",
     "packages": [
+        {
+            "name": "artogrig/laravel-make-service",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artogrig/laravel-make-service.git",
+                "reference": "d9aac007d6a86a73c4eed2449dbd6ffb0afae91d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artogrig/laravel-make-service/zipball/d9aac007d6a86a73c4eed2449dbd6ffb0afae91d",
+                "reference": "d9aac007d6a86a73c4eed2449dbd6ffb0afae91d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Artogrig\\LaravelMakeService\\LaravelMakeServiceServiceProvider"
+                    ],
+                    "aliases": {
+                        "LaravelMakeService": "Artogrig\\LaravelMakeService\\Facades\\LaravelMakeService"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Artogrig\\LaravelMakeService\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Artavazd Grigoryan",
+                    "email": "artogrig@gmail.com"
+                }
+            ],
+            "description": "An Artisan console command to create service in your Laravel application.",
+            "homepage": "https://github.com/artogrig/laravel-make-service",
+            "keywords": [
+                "LaravelMakeService",
+                "artogrig",
+                "command",
+                "console",
+                "laravel",
+                "make",
+                "service"
+            ],
+            "time": "2018-05-18T10:46:23+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "v0.1.1",

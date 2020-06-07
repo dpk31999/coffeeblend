@@ -22,7 +22,7 @@
       <div class="container">
           <div class="row">
               <div class="col-lg-6 mb-5 ftco-animate">
-                  <a href="/storage/{{$product->url_image}}" class="image-popup"><img src="/storage/{{$product->url_image}}" class="img-fluid" alt="Colorlib Template"></a>
+                  <a href="{{route('product.show',$product->id)}}" class="image-popup"><img src="/storage/{{$product->url_image}}" class="img-fluid" alt="Colorlib Template"></a>
               </div>
               <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                   <h3>{{$product->name}}</h3>
@@ -65,7 +65,7 @@
             @foreach ($bestSeller as $product)
                 <div class="col-md-3">
                     <div class="menu-entry">
-                        <a href="#" class="img" style="background-image: url(/storage/{{$product->url_image}});"></a>
+                        <a href="{{route('product.show',$product->id)}}" class="img" style="background-image: url(/storage/{{$product->url_image}});"></a>
                         <div class="text text-center pt-4">
                             <h3><a href="{{route('product.show',$product->id)}}">{{$product->name}}</a></h3>
                             <p>{{$product->description}}</p>

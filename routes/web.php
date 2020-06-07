@@ -90,6 +90,24 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
             Route::post('/getProduct/{product}','ProductController@getProduct')->name('getProduct');
             Route::post('/editProduct/{product}','ProductController@editProduct')->name('editProduct');
             //endcategory
+
+            //user
+            Route::get('/user','UserController@index')->name('user');
+            Route::post('/blockUser/{user}','UserController@blockUser')->name('blockUser');
+            //enduser
+
+            //order
+            Route::get('/order','OrderController@index')->name('order');
+            Route::post('/completedOrder/{invoice}','OrderController@completedOrder');
+            Route::get('/getCustomer/{invoice}','OrderController@getCustomer');
+            Route::get('/getInvoice/{invoice}','OrderController@getInvoice');
+            //endorder
+
+            //booking
+            Route::get('/booking','BookingController@index')->name('booking');
+            Route::post('/refuseBook/{book}','BookingController@refuse');
+            Route::post('/confirmBook/{book}','BookingController@confirm');
+            //endbooking
         });
 
     });

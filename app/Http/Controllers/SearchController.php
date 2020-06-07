@@ -11,7 +11,7 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {   
-        $bestSeller = Product::withCount('invoice')->orderByDesc('invoice_count')->skip(0)->take(4)->get();
+        $bestSeller = Product::bestSeller();
         $cateupper = strtoupper($request->result);
         $products = Product::where('name', 'like', '%' . $request->result . '%')->get();
         $category = Category::where('name', $cateupper)->first();

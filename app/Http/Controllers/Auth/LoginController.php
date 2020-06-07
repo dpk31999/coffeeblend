@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
+use App\User;
 
 class LoginController extends Controller
 {
@@ -42,20 +45,25 @@ class LoginController extends Controller
     public function login(Request $request)
     {   
         $validator = Validator::make($request->all(), [
-            $this->username() => 'required|string',
+            'email' => 'required|string',
             'password' => 'required|string',
         ]);
 
         if($validator->passes())
-        {
-            if (method_exists($this, 'hasTooManyLoginAttempts') &&
-                $this->hasTooManyLoginAttempts($request)) {
-                $this->fireLockoutEvent($request);
+        {   
+            // if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            //     $this->hasTooManyLoginAttempts($request)) {
+            //     $this->fireLockoutEvent($request);
 
-                return $this->sendLockoutResponse($request);
+            //     return $this->sendLockoutResponse($request);
+            // }
+
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => '1'])) {
+                return response()->json(['error'=>'Your account have been locked, please contact admin !!!']);
             }
-
-            if ($this->attemptLogin($request)) {
+            elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => '0'])){
                 return $this->sendLoginResponse($request);
             }
 
@@ -65,10 +73,11 @@ class LoginController extends Controller
             // $this->incrementLoginAttempts($request);
 
             // return $this->sendFailedLoginResponse($request);
+            return response()->json(['error'=>'Email or Password not correct']);
         }
 
 
-        return response()->json(['error'=>'not correct']);
+        return response()->json(['error'=>'error']);
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.

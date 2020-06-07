@@ -10,6 +10,8 @@ use Intervention\Image\Facades\Image;
 use App\Product;
 use App\Category;
 
+use App\Services\ProductService;
+
 class ProductController extends Controller
 {
     public function index()
@@ -32,23 +34,19 @@ class ProductController extends Controller
         if ($validator->passes()) {
             $category = Category::where('name',$request->selectcate)->first();
 
-            $image = $request->url_image;
-
-            $image_path = 'uploads/' . time() . '.' . $image->getClientOriginalExtension();
-            $path = public_path('/storage/uploads');
-            $image->move($path ,$image_path);
+            $image = $this->handleUpload($request);
 
             $product = Product::create([
                 'cate_id' => $category->id,
                 'name' => $request->name,
                 'price' => $request->price,
                 'description' => $request->description,
-                'url_image' => $image_path
+                'url_image' => $image
             ]);
     
             return response()->json([
                 'product' => $product,
-                'url_image' => $image_path,
+                'url_image' => $image,
                 'cate_name' => $request->selectcate
             ], 200);
         }
@@ -60,10 +58,7 @@ class ProductController extends Controller
     {
         $product = Product::find($request->product_id);
 
-        if(File::exists(public_path('storage/' . $product->url_image))){
-
-            File::delete(public_path('storage/' . $product->url_image));
-        }
+        $this->handleDelete($product);
 
         $product->delete();
     }
@@ -123,16 +118,9 @@ class ProductController extends Controller
 
             if(isset($request->url_image))
             {
-                if(File::exists(public_path('storage/' . $product->url_image))){
-
-                    File::delete(public_path('storage/' . $product->url_image));
-                }
+                $this->handleDelete($product);
     
-                $image = $request->url_image;
-    
-                $image_path = 'uploads/' . time() . '.' . $image->getClientOriginalExtension();
-                $path = public_path('/storage/uploads');
-                $image->move($path ,$image_path);
+                $image_path = $this->handleUpload($request);
             }
             else{
                 $image_path = 'uploads/' . $request->url_image_src;
@@ -153,5 +141,21 @@ class ProductController extends Controller
         }
 
         return response()->json(['error'=>$validator->errors()->all()]);
+    }
+
+    public function handleDelete($product)
+    {
+        $productService = ProductService::create();
+
+        $productService->handleDeleteImageProduct($product);
+    }
+
+    public function handleUpload($request)
+    {
+        $productService = ProductService::create();
+
+        $image = $productService->handleUploadImageProduct($request);
+
+        return $image;
     }
 }

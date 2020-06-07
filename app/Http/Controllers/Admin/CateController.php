@@ -17,14 +17,17 @@ class CateController extends Controller
         return view('admin.categories',compact('categories'));
     }
 
-    public function addCate(Request $request)
-    {   
-        $validator = Validator::make($request->all(), [
+    public function validateCate($request)
+    {
+        return $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:category',
         ]);
+    }
 
+    public function addCate(Request $request)
+    {   
 
-        if ($validator->passes()) {
+        if ($this->validateCate($request)->passes()) {
             $cate = Category::create([
                 'admin_id' => Auth::guard('admin')->user()->id,
                 'name' => $request->name,
@@ -38,7 +41,7 @@ class CateController extends Controller
             ], 200);
         }
 
-    	return response()->json(['error'=>$validator->errors()->all()]);
+    	return response()->json(['error'=>$this->validateCate($request)->errors()->all()]);
 
     }
 
@@ -65,20 +68,16 @@ class CateController extends Controller
         if($request->name == $cate->name){
             return response()->json(['success'=>'200 ok']);
         }
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255|unique:category',
-            ]);
 
+        if ($this->validateCate($request)->passes()) {
+            $cate->name = $request->name;
+            $cate->save();
+    
+            return response()->json([
+                'name' => $request->name,
+            ], 200);
+        }
 
-            if ($validator->passes()) {
-                $cate->name = $request->name;
-                $cate->save();
-        
-                return response()->json([
-                    'name' => $request->name,
-                ], 200);
-            }
-
-            return response()->json(['error'=>$validator->errors()->all()]);
+        return response()->json(['error'=>$this->validateCate($request)->errors()->all()]);
     }
 }

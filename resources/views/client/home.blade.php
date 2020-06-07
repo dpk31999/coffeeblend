@@ -214,8 +214,8 @@
                         <div class="block-18 text-center">
                             <div class="text">
                                 <div class="icon"><span class="flaticon-coffee-cup"></span></div>
-                                <strong class="number" data-number="100">0</strong>
-                                <span>Coffee Branches</span>
+                                <strong class="number" data-number="{{$count_product}}">0</strong>
+                                <span>Product</span>
                             </div>
                         </div>
                     </div>
@@ -223,8 +223,8 @@
                         <div class="block-18 text-center">
                             <div class="text">
                                 <div class="icon"><span class="flaticon-coffee-cup"></span></div>
-                                <strong class="number" data-number="85">0</strong>
-                                <span>Number of Awards</span>
+                                <strong class="number" data-number="{{$count_order}}">0</strong>
+                                <span>Order</span>
                             </div>
                         </div>
                     </div>
@@ -232,8 +232,8 @@
                         <div class="block-18 text-center">
                             <div class="text">
                                 <div class="icon"><span class="flaticon-coffee-cup"></span></div>
-                                <strong class="number" data-number="10567">0</strong>
-                                <span>Happy Customer</span>
+                                <strong class="number" data-number="{{$count_booking}}">0</strong>
+                                <span>Booking</span>
                             </div>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                         <div class="block-18 text-center">
                             <div class="text">
                                 <div class="icon"><span class="flaticon-coffee-cup"></span></div>
-                                <strong class="number" data-number="900">0</strong>
+                                <strong class="number" data-number="{{$count_admin}}">0</strong>
                                 <span>Staff</span>
                             </div>
                         </div>
@@ -349,7 +349,7 @@
                                                     <h3><a href="{{route('product.show',$product->id)}}">{{$product->name}}</a></h3>
                                                     <p>{{$product->description}}</p>
                                                     <p class="price"><span>${{$product->price}}</span></p>
-                                                    <p><a style="cursor: pointer" class="btn btn-primary add-to-cart text-decoration-none" data-name="{{$product->name}}" data-price="{{$product->price}}" data-urlImg="{{$product->url_image}}">Add to cart</a></p>
+                                                    <p><a style="cursor: pointer" href="#" class="btn btn-primary add-to-cart text-decoration-none" data-name="{{$product->name}}" data-price="{{$product->price}}" data-urlImg="{{$product->url_image}}">Add to cart</a></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -367,7 +367,7 @@
                                                     <h3><a href="{{route('product.show',$product->id)}}">{{$product->name}}</a></h3>
                                                     <p>{{$product->description}}</p>
                                                     <p class="price"><span>${{$product->price}}</span></p>
-                                                    <p><a style="cursor: pointer" class="btn btn-primary add-to-cart text-decoration-none" data-name="{{$product->name}}" data-price="{{$product->price}}" data-urlImg="{{$product->url_image}}">Add to cart</a></p>
+                                                    <p><a style="cursor: pointer" href="#" class="btn btn-primary add-to-cart text-decoration-none" data-name="{{$product->name}}" data-price="{{$product->price}}" data-urlImg="{{$product->url_image}}">Add to cart</a></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -385,7 +385,7 @@
                                                     <h3><a href="{{route('product.show',$product->id)}}">{{$product->name}}</a></h3>
                                                     <p>{{$product->description}}</p>
                                                     <p class="price"><span>${{$product->price}}</span></p>
-                                                    <p><a style="cursor: pointer" class="btn btn-primary add-to-cart text-decoration-none text-dark" data-name="{{$product->name}}" data-price="{{$product->price}}" data-urlImg="{{$product->url_image}}">Add to cart</a></p>
+                                                    <p><a style="cursor: pointer" href="#" class="btn btn-primary add-to-cart text-decoration-none text-dark" data-name="{{$product->name}}" data-price="{{$product->price}}" data-urlImg="{{$product->url_image}}">Add to cart</a></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -490,51 +490,22 @@
             </div>
         </div>
         <div class="row d-flex">
-            <div class="col-md-4 d-flex ftco-animate">
-                <div class="blog-entry align-self-stretch">
-                    <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
-                    </a>
-                    <div class="text py-4 d-block">
-                        <div class="meta">
-                            <div><a href="#">Sept 10, 2018</a></div>
-                            <div><a href="#">Admin</a></div>
-                            <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+            @foreach (App\Post::withCount('comments')->orderByDesc('comments_count')->skip(0)->take(3)->get() as $post)
+                <div class="col-md-4 d-flex ftco-animate">
+                    <div class="blog-entry align-self-stretch">
+                        <a href="{{route('blog.single',$post->slug)}}" class="block-20" style="background-image: url(/storage/{{$post->url_thumb}});">
+                        </a>
+                        <div class="text py-4 d-block">
+                            <div class="meta">
+                                <div><a class="text-decoration-none"><span class="icon-calendar"></span>{{$post->created_at}}</a></div>
+                                <div><a class="text-decoration-none"><span class="icon-person"></span>{{$post->admin->username}}</a></div>
+                                <div><a class="text-decoration-none"><span class="icon-chat"></span> {{$post->comments->count()}}</a></div>
+                            </div>
+                            <h3 class="heading mt-2"><a href="{{route('blog.single',$post->slug)}}">{{$post->title}}</a></h3>
                         </div>
-                        <h3 class="heading mt-2"><a href="#">The Delicious Pizza</a></h3>
-                        <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 d-flex ftco-animate">
-                <div class="blog-entry align-self-stretch">
-                    <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-                    </a>
-                    <div class="text py-4 d-block">
-                        <div class="meta">
-                            <div><a href="#">Sept 10, 2018</a></div>
-                            <div><a href="#">Admin</a></div>
-                            <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                        </div>
-                        <h3 class="heading mt-2"><a href="#">The Delicious Pizza</a></h3>
-                        <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 d-flex ftco-animate">
-                <div class="blog-entry align-self-stretch">
-                    <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-                    </a>
-                    <div class="text py-4 d-block">
-                        <div class="meta">
-                            <div><a href="#">Sept 10, 2018</a></div>
-                            <div><a href="#">Admin</a></div>
-                            <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                        </div>
-                        <h3 class="heading mt-2"><a href="#">The Delicious Pizza</a></h3>
-                        <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>

@@ -17,4 +17,16 @@ class Product extends Model
     {
         return $this->hasMany(InvoiceProduct::class);
     }
+
+    public function scopeBestSeller()
+    {
+        return Product::withCount('invoice')->orderByDesc('invoice_count')->skip(0)->take(4)->get();
+    }
+
+    public function scopeCallCategory($query,$name)
+    {   
+        return $query->whereHas('category', function($query) use ($name) {
+                $query->where('name', $name);
+            });
+    }
 }

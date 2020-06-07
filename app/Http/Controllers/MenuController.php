@@ -9,25 +9,13 @@ class MenuController extends Controller
 {
     public function index()
     {   
-        $starters = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'STARTER');
-        })->get();
+        $starters = Product::callCategory('STARTER')->get();
 
-        $mainDish = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'MAIN DISH');
-        })->get();
+        $mainDish = Product::callCategory('MAIN DISH')->get();
 
-        $desserts = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'DESSERTS');
-        })->get();
+        $desserts = Product::callCategory('DESSERTS')->get();
 
-        $drinks = Product::with('category')
-        ->whereHas('category', function($query) {
-            $query->where('name', 'DRINKS');
-        })->get();
+        $drinks = Product::callCategory('DRINKS')->get();
 
         $title = 'Menu';
 

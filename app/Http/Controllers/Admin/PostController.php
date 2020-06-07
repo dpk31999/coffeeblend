@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Post;
 
+use App\Services\PostService;
+use App\Http\Requests\PostRequest;
+
 class PostController extends Controller
 {
     public function index()
@@ -28,27 +31,15 @@ class PostController extends Controller
         return view('admin.posteditoradd');
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string',
-            'slug' => 'required|string',
-            'url_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
-            'keyword' =>'required|string',
-            'content' => 'required|string',
-        ]);
-
-        $image = $request->url_image;
-
-        $image_path = 'thumbpost/' . time() . '.' . $image->getClientOriginalExtension();
-        $path = public_path('/storage/thumbpost');
-        $image->move($path ,$image_path);
+        $image = $this->handleUploadStore($request);
 
         $post = Post::create([
             'admin_id' => Auth::guard('admin')->user()->id,
             'title' => $request->title,
             'content' => $request->content,
-            'url_thumb' => $image_path,
+            'url_thumb' => $image,
             'slug' => $request->slug,
             'keyword' => $request->keyword,
             'status' => '0',
@@ -63,12 +54,47 @@ class PostController extends Controller
         return view('admin.posteditoradd',\compact('post'));
     }
 
+    public function edit(Request $request,Post $post)
+    {   
+        if(isset($request->url_image)){
+
+            $request->validate([
+                'title' => 'required|string',
+                'slug' => 'required|string|unique:posts,slug,' . $post->id,
+                'url_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
+                'keyword' =>'required|string',
+                'content' => 'required|string',
+            ]);
+
+            $image = $this->handleUploadEdit($request,$post);
+
+        }
+
+        else{
+            $request->validate([
+                'title' => 'required|string',
+                'slug' => 'required|string|unique:posts,slug,' . $post->id,
+                'url_image' => 'image|mimes:jpeg,png,jpg,gif,svg,jfif|max:2048',
+                'keyword' =>'required|string',
+                'content' => 'required|string',
+            ]);
+
+            $image = $post->url_thumb;
+        }
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->url_thumb = $image;
+        $post->slug = $request->slug;
+        $post->keyword = $request->keyword;
+        $post->save();
+        
+        return \redirect()->route('admin.post');
+    }
+
     public function detroy(Post $post)
     {
-        if(File::exists(public_path('storage/' . $post->url_thumb))){
-
-            File::delete(public_path('storage/' . $post->url_thumb));
-        }
+        $this->deleteExistThumb($post);
 
         $post->delete();
     }
@@ -95,5 +121,25 @@ class PostController extends Controller
         return response()->json(
             ['status' => $status]
         , 200);
+    }
+
+    public function handleUploadEdit($request,$post)
+    {
+        $postService = PostService::create();
+
+        $postService->handleDeleteThumbPost($post);
+
+        $image = $postService->handleUploadThumbPost($request);
+
+        return $image;
+    }
+
+    public function handleUploadStore($request)
+    {
+        $postService = PostService::create();
+
+        $image = $postService->handleUploadThumbPost($request);
+
+        return $image;
     }
 }

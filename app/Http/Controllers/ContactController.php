@@ -14,15 +14,20 @@ class ContactController extends Controller
         return view('client.contact',\compact('title'));
     }
 
-    public function store(Request $request)
-    {   
-        $validator = Validator::make($request->all(), [
+    public function validator($request)
+    {
+        return $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:500',
         ]);
-        if ($validator->passes()) {
+    }
+
+    public function store(Request $request)
+    {   
+
+        if ($this->validator($request)->passes()) {
             Contact::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -31,6 +36,6 @@ class ContactController extends Controller
             ]);
         }
         
-        return response()->json(['error'=>$validator->errors()->all()]);
+        return response()->json(['error'=>$this->validator($request)->errors()->all()]);
     }
 }

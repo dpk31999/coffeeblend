@@ -49,7 +49,7 @@
                         <label for="message">Message</label>
                         <div class="form-group d-flex" style="position: relative">
                             <input type="text" name="comment" class="form-control" id="message">
-                            <input type="submit" style="position: absolute;right: 0;" value="Post" class="btn py-3 px-4 btn-primary">
+                            <button type="submit" style="position: absolute;right: 0;" class="btn py-3 px-4 btn-primary">Post</button>
                         </div>
                     </form>
                 </div>

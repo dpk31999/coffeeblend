@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function show(Product $product)
     {   
-        $bestSeller = Product::withCount('invoice')->orderByDesc('invoice_count')->skip(0)->take(4)->get();
+        $bestSeller = Product::bestSeller();
         $title = $product->name;
 
         return view('client.singleproduct',\compact('product','bestSeller','title'));

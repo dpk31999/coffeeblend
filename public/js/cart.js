@@ -229,7 +229,7 @@ $('.show-cart').on("click", ".minus-item", function(event) {
     // +1
 $('.show-cart').on("click", ".plus-item", function(event) {
     var name = $(this).data('name')
-    shoppingCart.addItemToCart(name);
+    shoppingCart.addItemToCart(name, '', '', 1);
     displayCart();
 })
 
