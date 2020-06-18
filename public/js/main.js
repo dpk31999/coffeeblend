@@ -93,11 +93,10 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-AOS.init({
-  duration: 800,
-  easing: 'slide'
-});
-
+//  AOS.init({
+//  	duration: 800,
+//  	easing: 'slide'
+//  });
 (function ($) {
   "use strict";
 
@@ -376,7 +375,7 @@ AOS.init({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\ADMIN\coffeeshop\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\Users\ADMIN\Coffeeblend\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

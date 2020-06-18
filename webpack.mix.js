@@ -26,10 +26,20 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/css/owl.theme.default.min.css',
         'resources/css/style.css',
         'resources/css/ionicons.css',
-        'resources/css/icomoon.css'
     ], 'public/css/style.css');
 
-mix.styles([
-    'resources/css/font-face.css',
-    'resources/css/theme.css'
-], 'public/css/admin.css');
+mix.js('resources/js/main.js', 'public/js/main.js');
+mix.js('resources/js/jquery.min.js', 'public/js/jquery.min.js');
+mix.js('resources/js/jquery-migrate-3.0.1.min.js', 'public/js/jquery-migrate-3.0.1.min.js');
+mix.js('resources/js/popper.min.js', 'public/js/popper.min.js');
+mix.js('resources/js/bootstrap.min.js', 'public/js/bootstrap.min.js');
+mix.js('resources/js/jquery.easing.1.3.js', 'public/js/jquery.easing.1.3.js');
+mix.js('resources/js/jquery.waypoints.min.js', 'public/js/jquery.waypoints.min.js');
+mix.js('resources/js/jquery.stellar.min.js', 'public/js/jquery.stellar.min.js');
+mix.js('resources/js/owl.carousel.min.js', 'public/js/owl.carousel.min.js');
+mix.js('resources/js/jquery.magnific-popup.min.js', 'public/js/jquery.magnific-popup.min.js');
+mix.js('resources/js/aos.js', 'public/js/aos.js');
+mix.js('resources/js/jquery.animateNumber.min.js', 'public/js/jquery.animateNumber.min.js');
+mix.js('resources/js/bootstrap-datepicker.js', 'public/js/bootstrap-datepicker.js');
+mix.js('resources/js/jquery.timepicker.min.js', 'public/js/jquery.timepicker.min.js');
+mix.js('resources/js/scrollax.min.js', 'public/js/scrollax.min.js');
