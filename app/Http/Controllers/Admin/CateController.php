@@ -26,7 +26,6 @@ class CateController extends Controller
 
     public function addCate(Request $request)
     {   
-
         if ($this->validateCate($request)->passes()) {
             $cate = Category::create([
                 'admin_id' => Auth::guard('admin')->user()->id,
@@ -42,7 +41,6 @@ class CateController extends Controller
         }
 
     	return response()->json(['error'=>$this->validateCate($request)->errors()->all()]);
-
     }
 
     public function deleteCate(Request $request)

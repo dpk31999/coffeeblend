@@ -11,12 +11,18 @@ class PostService
     }
 
     public function handleUploadThumbPost($request)
-    {
-        $image = $request->url_image;
+    {   
+        if(isset($request->url_image))
+        {
+            $image = $request->url_image;
 
-        $image_path = 'thumbpost/' . time() . '.' . $image->getClientOriginalExtension();
-        $path = public_path('/storage/thumbpost');
-        $image->move($path ,$image_path);
+            $image_path = 'thumbpost/' . time() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('/storage/thumbpost');
+            $image->move($path ,$image_path);
+        }
+        else{
+            $image_path = 'uploads/default_product.png';
+        }
 
         return $image_path;
     }

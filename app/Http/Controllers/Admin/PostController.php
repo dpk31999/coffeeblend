@@ -142,4 +142,11 @@ class PostController extends Controller
 
         return $image;
     }
+
+    public function deleteExistThumb($post)
+    {
+        $postService = PostService::create();
+
+        $postService->handleDeleteThumbPost($post);
+    }
 }
