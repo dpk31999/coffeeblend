@@ -100,7 +100,8 @@ class BlogController extends Controller
         $this->pusherComment($post,$data);
     }
 
-    public function createReplyComment(Request $request, Comment $comment){
+    public function createReplyComment(Request $request, Comment $comment)
+    {
 
         if($this->checkUser() == false)
         {
