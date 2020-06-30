@@ -45,11 +45,14 @@ Route::prefix('/v1')->namespace('Api\v1')->group(function(){
     Route::get('/post','PostController@index');
     Route::get('/p/{slug}','PostController@showBySlug');
     Route::get('/search/post/{keyword}','PostController@search');
+
     Route::get('/comment','CommentController@index');
     Route::get('/post/{post}/comment','CommentController@getCommentInPost');
 
     Route::get('/replyComment','ReplyCommentController@index');
     Route::get('/comment/{comment}/replyComment','ReplyCommentController@getReplyCommentInPost');
+
+    Route::post('/invoice','InvoiceController@store');
     //end
 
     // permission admin
@@ -71,7 +74,6 @@ Route::prefix('/v1')->namespace('Api\v1')->group(function(){
     Route::get('/customer/{customer}','CustomerController@show');
 
     Route::get('/invoice','InvoiceController@index');
-    Route::post('/invoice','InvoiceController@store');
     Route::get('/invoice/{invoice}','InvoiceController@show');
     Route::put('/invoice/completeOrder/{invoice}','InvoiceController@complete');
 

@@ -75,3 +75,7 @@
     position: absolute;
     left: 42%;
 }
+
+.scroll-cart::-webkit-scrollbar {
+    display: none;
+}

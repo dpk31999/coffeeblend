@@ -58,7 +58,7 @@ class ReplyCommentController extends Controller
     {
         
         $validator = Validator::make($request->all(), [
-            'comment' => 'required|string'
+            'replyCmt' => 'required|string'
         ]);
 
         if($validator->fails())

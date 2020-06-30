@@ -157,7 +157,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body scroll-cart">
                     <table class="table">
                         <thead class="thead-primary">
                         <tr class="text-center">
@@ -173,9 +173,9 @@
                         
                         </tbody>
                     </table>
-                    <div>Total price: $<span class="total-cart"></span></div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="position: relative">
+                    <div style="position: absolute;left: 5px;">Total price: <span class="total-cart"></span></div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary"><a class="text-decoration-none text-dark" href="{{route('cart')}}">Go to Cart</a></button>
                     <button type="button" class="clear-cart btn btn-warning">Clear Cart</button>
