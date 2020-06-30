@@ -32,7 +32,7 @@
             
             <div class="about-author d-flex">
                 <div class="bio align-self-md-center mr-5">
-                    <img src="/storage/thumb/default_ava.jpg" alt="Image placeholder" class="img-fluid mb-4">
+                    <img src="/storage/thumb/default_ava.jpg" alt="Image placeholder" class="mb-4" style="width: 50px;border-radius: 50%">
                 </div>
                 <div class="desc align-self-md-center">
                     <h3>{{$post->admin->username}}</h3>

@@ -16,11 +16,11 @@ class HomeController extends Controller
         
         $bestSeller = Product::bestSeller();
         
-        $mainDish = Product::callCategory('MAIN DISH')->take(3)->get();
+        $mainDish = Product::callCategory('MAIN DISH')->take(3);
 
-        $desserts = Product::callCategory('DESSERTS')->take(3)->get();
+        $desserts = Product::callCategory('DESSERTS')->take(3);
 
-        $drinks = Product::callCategory('DRINKS')->take(3)->get();
+        $drinks = Product::callCategory('DRINKS')->take(3);
 
         $count_product = Product::all()->count();
 
@@ -28,7 +28,7 @@ class HomeController extends Controller
 
         $count_booking = Booking::all()->count();
 
-        $count_admin = Admin::all()->count() - 1;
+        $count_admin = Admin::all()->count();
 
         $title = 'Home';
         

@@ -17,4 +17,9 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function scopePostTrend()
+    {
+        return Post::withCount('comments')->orderByDesc('comments_count')->get();
+    }
 }

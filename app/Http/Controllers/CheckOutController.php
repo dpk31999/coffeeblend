@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
+use App\Post;
+use App\Invoice;
+use App\Product;
+
+use App\Category;
+use App\Customer;
+use App\InvoiceProduct;
 use Illuminate\Http\Request;
 use App\Events\CustomerOrder;
-
-use App\Customer;
-use App\Invoice;
-use App\InvoiceProduct;
-use App\Product;
+use Illuminate\Support\Facades\Validator;
 
 class CheckOutController extends Controller
 {
     public function index()
     {   
         $title = 'Check Out';
-        return view('client.checkout',\compact('title'));
+        $bestSeller = Product::bestSeller();
+        $categories = Category::all();
+        $posts = Post::postTrend()->take(3);
+        return view('client.checkout',\compact('title','bestSeller','categories','posts'));
     }
 
     public function validator($request)

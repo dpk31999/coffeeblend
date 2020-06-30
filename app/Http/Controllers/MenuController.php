@@ -9,13 +9,13 @@ class MenuController extends Controller
 {
     public function index()
     {   
-        $starters = Product::callCategory('STARTER')->get();
+        $starters = Product::callCategory('STARTER');
 
-        $mainDish = Product::callCategory('MAIN DISH')->get();
+        $mainDish = Product::callCategory('MAIN DISH');
 
-        $desserts = Product::callCategory('DESSERTS')->get();
+        $desserts = Product::callCategory('DESSERTS');
 
-        $drinks = Product::callCategory('DRINKS')->get();
+        $drinks = Product::callCategory('DRINKS');
 
         $title = 'Menu';
 

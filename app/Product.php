@@ -27,6 +27,11 @@ class Product extends Model
     {   
         return $query->whereHas('category', function($query) use ($name) {
                 $query->where('name', $name);
-            });
+            })->get();
+    }
+
+    public function scopeSearchByName($query,$name)
+    {
+        return $query->where('name', 'like', '%' . $name . '%')->get();
     }
 }

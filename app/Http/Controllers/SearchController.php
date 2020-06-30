@@ -9,14 +9,18 @@ use App\Post;
 
 class SearchController extends Controller
 {
+    public function upperResult($request)
+    {
+        return strtoupper($request->result);
+    }
+
     public function search(Request $request)
     {   
         $bestSeller = Product::bestSeller();
-        $cateupper = strtoupper($request->result);
-        $products = Product::where('name', 'like', '%' . $request->result . '%')->get();
-        $category = Category::where('name', $cateupper)->first();
+        $products = Product::searchByName($request->result);
+        $category = Category::searchByName($this->upperResult($request));
         $categories = Category::all();
-        $posts = Post::withCount('comments')->orderByDesc('comments_count')->skip(0)->take(3)->get();
+        $posts = Post::postTrend()->take(3);
 
         $title = $request->result;
 

@@ -17,13 +17,6 @@
       0 => 'BeyondCode\\DumpServer\\DumpServerServiceProvider',
     ),
   ),
-  'darkaonline/l5-swagger' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'L5Swagger\\L5SwaggerServiceProvider',
-    ),
-  ),
   'fideloper/proxy' => 
   array (
     'providers' => 

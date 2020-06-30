@@ -19,4 +19,9 @@ class Category extends Model
     {
         return $this->belongsTo(Admin::class);
     }
+
+    public function scopeSearchByName($query,$name)
+    {
+        return $query->where('name', $name)->first();
+    }
 }
