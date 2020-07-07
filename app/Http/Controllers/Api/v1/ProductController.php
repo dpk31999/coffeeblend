@@ -84,14 +84,6 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        if(Auth::check() == false)
-        {
-            return response()->json([
-                'status' => false,
-                'message' => 'Unauthorized'
-            ], 401);
-        }
-
         return response()->json([
             'message' => 'success',
             'product' => $product
