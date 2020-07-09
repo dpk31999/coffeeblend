@@ -9,6 +9,7 @@ use App\InvoiceProduct;
 use Illuminate\Http\Request;
 use App\Events\CustomerOrder;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
